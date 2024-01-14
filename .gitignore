@@ -2,5 +2,8 @@ __pycache__
 emails
 original-generator
 testing
+newsletters
 img/svg
 config.py
+event.py
+*.html
