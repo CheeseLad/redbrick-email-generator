@@ -19,7 +19,7 @@ def read_text_between_tags(html_content, tag_name):
     soup = BeautifulSoup(html_content, 'html.parser')
     tag = soup.find(tag_name)
 
-    if tag_name in ['intro-text', 'main-text', 'hackerclub-info', 'event-info']:
+    if tag_name in ['intro-text', 'main-text', 'hackerclub-info', 'event1-info']: ### , 'event2-info'
         return str(tag)
     else:
         return tag.get_text()
@@ -69,7 +69,7 @@ def main(file_path):
         exit()
 
     tokens = []
-    sections = ['week', 'event-count', 'events-section-title', 'hackerclub-section-title', 'event-link', 'intro-gif', 'intro-text', 'main-text', 'hackerclub-title', 'hackerclub-info', 'hackerclub-image', 'event-title', 'event-info', 'event-image']
+    sections = ['week', 'event-count', 'events-section-title', 'hackerclub-section-title', 'event-link', 'intro-gif', 'intro-text', 'main-text', 'hackerclub-title', 'hackerclub-info', 'hackerclub-image', 'event1-title', 'event1-info', 'event1-image'] ###  , 'event2-title', 'event2-info', 'event2-image'
     for section in sections:
         temp = (read_text_between_tags(html_content, section).lstrip().rstrip())
         temp = temp.replace('\n', '<br>')
@@ -83,7 +83,7 @@ def main(file_path):
         'events_section_title': tokens[2],
         'hackerclub_section_title': tokens[3],
         'hackerclub_link': tokens[4],
-        'event_1_link': tokens[4],
+        'event_link': tokens[4],
         'intro_image_url': tokens[5],
         'intro_text': tokens[6],
         'long_text': tokens[7],
@@ -91,14 +91,6 @@ def main(file_path):
         'hackerclub_title': tokens[8],
         'hackerclub_info': tokens[9],
         'hackerclub_image_url': tokens[10],
-
-        'event_1_title': tokens[11],
-        'event_1_info': tokens[12],
-        'event_1_image_url': tokens[13],
-
-        'event_2_title': tokens[11],
-        'event_2_info': tokens[12],
-        'event_2_image_url': tokens[13],
 
         'newsletter_colour' : newsletter_colour, 
         'email_colour' : email_colour, 
@@ -109,6 +101,15 @@ def main(file_path):
         'instagram_img' : instagram_img,
         'discord_img' : discord_img
     }
+    if tokens[1] == '1':
+        template_variables['event_1_title'] = tokens[11]
+        template_variables['event_1_info'] = tokens[12]
+        template_variables['event_1_image_url'] = tokens[13]
+    if tokens[1] == '2':
+        template_variables['event_2_title'] = tokens[14]
+        template_variables['event_2_info'] = tokens[15]
+        template_variables['event_2_image_url'] = tokens[16]
+    
     template_path = 'template-event.html'
     rendered_content = render_template(template_path, template_variables)
 
