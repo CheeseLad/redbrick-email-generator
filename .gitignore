@@ -7,3 +7,8 @@ img/svg
 config.py
 event.py
 *.html
+.cspell
+.vscode
+updates
+cspell.json
+test.py

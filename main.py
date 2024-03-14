@@ -19,7 +19,16 @@ def read_text_between_tags(html_content, tag_name):
     soup = BeautifulSoup(html_content, 'html.parser')
     tag = soup.find(tag_name)
 
-    if tag_name in ['intro-text', 'main-text', 'hackerclub-info', 'event1-info']: ### , 'event2-info'
+    tag_list = ['intro-text', 'main-text', 'hackerclub-info']
+
+    """if event_count == '1':
+        tag_list.append('event1-info')
+    
+    if event_count == '2':
+        tag_list.append('event1-info')
+        tag_list.append('event2-info')"""
+
+    if tag_name in tag_list:
         return str(tag)
     else:
         return tag.get_text()
@@ -46,13 +55,15 @@ def add_events(event_count):
         'discord_img' : '{{ discord_img }}',
     }
     if event_count == '1':
+        event_variables['event_section'] = event_section
         event_variables['event_1'] = event1
-    elif event_count == '2':
+
+
+    if event_count == '2':
+        event_variables['event_section'] = event_section
         event_variables['event_1'] = event1
         event_variables['event_2'] = event2
-    else:
-        print("Invalid event count.")
-        exit()
+
     before_template_path = 'template.html'
     rendered_content2 = render_template(before_template_path, event_variables)
 
@@ -68,8 +79,69 @@ def main(file_path):
         print(f"File not found: {file_path}")
         exit()
 
+    event_count_html = read_text_between_tags(html_content, 'event-count')
+    is_hackerclub_html = read_text_between_tags(html_content, 'is-hackerclub')
+
     tokens = []
-    sections = ['week', 'event-count', 'events-section-title', 'hackerclub-section-title', 'event-link', 'intro-gif', 'intro-text', 'main-text', 'hackerclub-title', 'hackerclub-info', 'hackerclub-image', 'event1-title', 'event1-info', 'event1-image'] ###  , 'event2-title', 'event2-info', 'event2-image'
+    sections = ['week', 'event-count', 'events-section-title', 'hackerclub-section-title', 'event-link', 'intro-gif', 'is-hackerclub', 'intro-text', 'main-text']
+    if is_hackerclub_html.lower() == 'true':
+        sections.append('hackerclub-title')
+        sections.append('hackerclub-info')
+        sections.append('hackerclub-image')
+    if event_count_html == '1':
+        sections.append('event1-title')
+        sections.append('event1-info')
+        sections.append('event1-image')
+    if event_count_html == '2':
+        sections.append('event1-title')
+        sections.append('event1-info')
+        sections.append('event1-image')
+        sections.append('event2-title')
+        sections.append('event2-info')
+        sections.append('event2-image')
+    
+    if event_count_html == '3':
+        sections.append('event1-title')
+        sections.append('event1-info')
+        sections.append('event1-image')
+        sections.append('event2-title')
+        sections.append('event2-info')
+        sections.append('event2-image')
+        sections.append('event3-title')
+        sections.append('event3-info')
+        sections.append('event3-image')
+
+    if event_count_html == '4':
+        sections.append('event1-title')
+        sections.append('event1-info')
+        sections.append('event1-image')
+        sections.append('event2-title')
+        sections.append('event2-info')
+        sections.append('event2-image')
+        sections.append('event3-title')
+        sections.append('event3-info')
+        sections.append('event3-image')
+        sections.append('event4-title')
+        sections.append('event4-info')
+        sections.append('event4-image')
+
+    if event_count_html == '5':
+        sections.append('event1-title')
+        sections.append('event1-info')
+        sections.append('event1-image')
+        sections.append('event2-title')
+        sections.append('event2-info')
+        sections.append('event2-image')
+        sections.append('event3-title')
+        sections.append('event3-info')
+        sections.append('event3-image')
+        sections.append('event4-title')
+        sections.append('event4-info')
+        sections.append('event4-image')
+        sections.append('event5-title')
+        sections.append('event5-info')
+        sections.append('event5-image')
+        
     for section in sections:
         temp = (read_text_between_tags(html_content, section).lstrip().rstrip())
         temp = temp.replace('\n', '<br>')
@@ -80,17 +152,12 @@ def main(file_path):
     template_variables = {
         'newsletter_week': tokens[0],
         'event_count': tokens[1],
-        'events_section_title': tokens[2],
         'hackerclub_section_title': tokens[3],
         'hackerclub_link': tokens[4],
         'event_link': tokens[4],
         'intro_image_url': tokens[5],
-        'intro_text': tokens[6],
-        'long_text': tokens[7],
-
-        'hackerclub_title': tokens[8],
-        'hackerclub_info': tokens[9],
-        'hackerclub_image_url': tokens[10],
+        'intro_text': tokens[7],
+        'long_text': tokens[8],
 
         'newsletter_colour' : newsletter_colour, 
         'email_colour' : email_colour, 
@@ -101,14 +168,72 @@ def main(file_path):
         'instagram_img' : instagram_img,
         'discord_img' : discord_img
     }
+
+    if tokens[6].lower() == 'true':
+        template_variables['hackerclub_title'] = tokens[9]
+        template_variables['hackerclub_info'] = tokens[10]
+        template_variables['hackerclub_image_url'] = tokens[11]
+
+
     if tokens[1] == '1':
-        template_variables['event_1_title'] = tokens[11]
-        template_variables['event_1_info'] = tokens[12]
-        template_variables['event_1_image_url'] = tokens[13]
+      template_variables['events_section_title'] = tokens[2]
+      template_variables['event_1_title'] = tokens[12]
+      template_variables['event_1_info'] = tokens[13]
+      template_variables['event_1_image_url'] = tokens[14]
+
     if tokens[1] == '2':
-        template_variables['event_2_title'] = tokens[14]
-        template_variables['event_2_info'] = tokens[15]
-        template_variables['event_2_image_url'] = tokens[16]
+      template_variables['events_section_title'] = tokens[2]
+      template_variables['event_1_title'] = tokens[12]
+      template_variables['event_1_info'] = tokens[13]
+      template_variables['event_1_image_url'] = tokens[14]
+      template_variables['event_2_title'] = tokens[15]
+      template_variables['event_2_info'] = tokens[16]
+      template_variables['event_2_image_url'] = tokens[17]
+
+    if tokens[1] == '3':
+        template_variables['events_section_title'] = tokens[2]
+        template_variables['event_1_title'] = tokens[12]
+        template_variables['event_1_info'] = tokens[13]
+        template_variables['event_1_image_url'] = tokens[14]
+        template_variables['event_2_title'] = tokens[15]
+        template_variables['event_2_info'] = tokens[16]
+        template_variables['event_2_image_url'] = tokens[17]
+        template_variables['event_3_title'] = tokens[18]
+        template_variables['event_3_info'] = tokens[19]
+        template_variables['event_3_image_url'] = tokens[20]
+
+    if tokens[1] == '4':
+        template_variables['events_section_title'] = tokens[2]
+        template_variables['event_1_title'] = tokens[12]
+        template_variables['event_1_info'] = tokens[13]
+        template_variables['event_1_image_url'] = tokens[14]
+        template_variables['event_2_title'] = tokens[15]
+        template_variables['event_2_info'] = tokens[16]
+        template_variables['event_2_image_url'] = tokens[17]
+        template_variables['event_3_title'] = tokens[18]
+        template_variables['event_3_info'] = tokens[19]
+        template_variables['event_3_image_url'] = tokens[20]
+        template_variables['event_4_title'] = tokens[21]
+        template_variables['event_4_info'] = tokens[22]
+        template_variables['event_4_image_url'] = tokens[23]
+
+    if tokens[1] == '5':
+        template_variables['events_section_title'] = tokens[2]
+        template_variables['event_1_title'] = tokens[12]
+        template_variables['event_1_info'] = tokens[13]
+        template_variables['event_1_image_url'] = tokens[14]
+        template_variables['event_2_title'] = tokens[15]
+        template_variables['event_2_info'] = tokens[16]
+        template_variables['event_2_image_url'] = tokens[17]
+        template_variables['event_3_title'] = tokens[18]
+        template_variables['event_3_info'] = tokens[19]
+        template_variables['event_3_image_url'] = tokens[20]
+        template_variables['event_4_title'] = tokens[21]
+        template_variables['event_4_info'] = tokens[22]
+        template_variables['event_4_image_url'] = tokens[23]
+        template_variables['event_5_title'] = tokens[24]
+        template_variables['event_5_info'] = tokens[25]
+        template_variables['event_5_image_url'] = tokens[26]
     
     template_path = 'template-event.html'
     rendered_content = render_template(template_path, template_variables)
@@ -124,8 +249,4 @@ def main(file_path):
       output_file.write(rendered_content)
 
 if __name__ == "__main__":
-    try:
-      main(sys.argv[1])
-    except IndexError:
-        print("Please provide a file path to the newsletter markdown file.")
-        exit()
+    main(sys.argv[1])
