@@ -5,7 +5,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup
-from config import sender_email, sender_password, smtp_server as smtp_server_address, smtp_port, recipients
+from config import sender_email, sender_password, smtp_server as smtp_server_address, smtp_port, recipients, author_info
 import datetime
 
 email_content = sys.argv[1]
@@ -23,7 +23,7 @@ password = sender_password
 def send_email(subject, html_body, sender, recipients, password):
     msg = MIMEMultipart()
     msg['Subject'] = subject
-    msg['From'] = sender
+    msg['From'] = f"{author_info} <{sender}>"
     msg['To'] = ', '.join(recipients)
 
     html_part = MIMEText(html_body, 'html')
