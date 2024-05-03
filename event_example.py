@@ -2,6 +2,7 @@
 
 # This file contains all the event variables for the newsletter
 
+event_section = "Event Section Title HTML"
 event1 = "Event HTML"
 event2 = "Event HTML"
 event3 = "Event HTML"
