@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
@@ -45,18 +46,28 @@ if int(read_sections['event_count']) > 0:
     for i in range(1, int(read_sections['event_count']) + 1):
       structure_sections[f'event_{i}'] = locals()[f'event{i}']
 
+
+file_date = datetime.datetime.now().strftime("%d.%m.%Y")
+current_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
+if "emails" not in os.listdir():
+    os.mkdir("emails")
+
+file_path = './emails/redbrick.email.' + file_date + '.html'
+       
+
 output_sections = render_template('template.html', structure_sections)
 
-with open('output.html', 'w') as file:
+with open(file_path, 'w') as file:
     file.write(output_sections)
 
-output_final = render_template('output.html', read_sections)
+output_final = render_template(file_path, read_sections)
 
 
-with open('output.html', 'w') as file:
+with open(file_path, 'w') as file:
     file.write(output_final)
 
-print('Output file has been created successfully')
+print(f'Email: redbrick.email.{file_date}.html has been successfully generated at {current_date} and has been saved to {file_path}')
 response = input('Would you like to send the email? (y/n): ')
 if response.lower() == 'y':
     response_email = send_email_input(output_final)
