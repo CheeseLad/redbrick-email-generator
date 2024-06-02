@@ -6,5 +6,4 @@ newsletters
 old
 config.py
 event_config.py
-*.html
-app
+create_email.py

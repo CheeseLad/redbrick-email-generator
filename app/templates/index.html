@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redbrick Email Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto bg-white p-8 rounded shadow-md">
+        <div class="flex mb-6 items-center">
+            <img src="../static/redbrick.png" class="h-16 w-16 mr-4" alt="Logo">
+            <h2 class="text-lg font-bold text-gray-800">Redbrick Email Generator</h2>
+        </div>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="file" class="block text-gray-700 font-bold mb-2">Upload Markdown Template</label>
+                <input type="file" name="file" id="file" class="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:border-indigo-500">
+            </div>
+            <div class="mb-4">
+                <input type="checkbox" id="download" name="download" class="mr-2">
+                <label for="download" class="text-gray-700">Download email HTML</label>
+            </div>
+            <div class="mb-4">
+                <input type="checkbox" id="sendEmail" name="sendEmail" class="mr-2">
+                <label for="sendEmail" class="text-gray-700">Send email to mailing list</label>
+            </div>
+            <button type="submit" style="background-color: #AA0202; color: white; font-weight: bold; padding: 0.5rem 1rem; border-radius: 0.25rem; outline: none; box-shadow: none;" onmouseover="this.style.backgroundColor='#c53030'" onmouseout="this.style.backgroundColor='#AA0202'">
+                Generate Email
+            </button>            
+        </form>
+        <div class="mt-6 text-center text-gray-600">
+            Generator developed by <a href="https://www.jakefarrell.ie/" target="_blank" style="color: #AA0202;">Jake Farrell</a>, original generator by Theo Morgan.
+        </div>
+    </div>
+</body>
+
+</html>
