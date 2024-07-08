@@ -26,7 +26,7 @@ def send_email(subject, html_body, sender, recipients, password, reply_to=None):
         current_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         return f'Email: "{subject}" has been successfully sent at {current_date} to {", ".join(recipients)}'
 
-def send_email_input(email_content, reply_to=None):
+def send_email_input(email_content):
 
     soup = BeautifulSoup(email_content, 'html.parser')
 

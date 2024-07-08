@@ -24,11 +24,19 @@ def upload_file():
             file.save(f"./uploaded_files/{file.filename}")
             processed_file = process(f"./uploaded_files/{file.filename}")
 
-            if download_file:
+            if download_file and not send_email:
                 return send_file(processed_file, as_attachment=True)
             
-            if send_email:
-                send_email(processed_file)
+            if send_email and not download_file:
+                with open(processed_file, 'r') as file:
+                    email_content = file.read()
+                send_email_input(email_content)
+            
+            if download_file and send_email:
+                with open(processed_file, 'r') as file:
+                    email_content = file.read()
+                send_email_input(email_content)
+                return send_file(processed_file, as_attachment=True)
 
     return render_template('index.html')
 

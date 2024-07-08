@@ -6,4 +6,8 @@ newsletters
 old
 config.py
 event_config.py
-create_email.py
+files
+generated_emails
+uploaded_files
+*.sh
+test-newsletter.md
